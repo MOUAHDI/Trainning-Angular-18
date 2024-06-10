@@ -1,6 +1,7 @@
 import { NgFor, NgIf } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { AutoCompletePipe } from "../../../shared/pipes/autocomplete.pipe";
 
 @Component({
     selector: 'app-search',
@@ -11,8 +12,8 @@ import { FormsModule } from "@angular/forms";
         }
         <!-- <button (click)="search()" *ngIf="userName != ''">Rechercher</button> -->
         <ul>
-            @for (name of firstNames ; track $index) {
-                <li>{{ $first }} - {{ name }}</li>
+            @for (name of firstNames | autocomplete:userName ; track $index) {
+                <li>{{ name }}</li>
             }
         </ul>
         <!-- <ul>
@@ -22,7 +23,7 @@ import { FormsModule } from "@angular/forms";
         </ul> -->
     `,
     standalone: true,
-    imports: [FormsModule /*NgIf, NgFor*/]
+    imports: [FormsModule, AutoCompletePipe /*NgIf, NgFor*/]
 })
 export class SearchComponent {
     @Input() userName = ''
