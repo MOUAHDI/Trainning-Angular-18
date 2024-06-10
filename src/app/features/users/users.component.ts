@@ -3,27 +3,37 @@ import { UserCardComponent } from './user-card/user-card.component';
 import { User } from '../../../core/interfaces/user.interface';
 import { PluralPipe } from '../../shared/pipes/plural.pipe';
 import { FormsModule } from '@angular/forms';
+import { ExtensionPipe } from '../../shared/pipes/extension.pipe';
 
 @Component({
   selector: 'app-users',
-  template: ` 
-    <h1>{{ 'Utilisateur' | plural:nbSelected }}</h1> 
+  template: `
+    <h1>{{ 'Utilisateur' | plural : nbSelected }}</h1>
 
     <select [(ngModel)]="nbSelected">
       <option>0</option>
       <option>1</option>
       <option>2</option>
     </select>
-  
-    @for (u of users ; track u.id) {
-        <app-user-card [user]="u"  />
+
+    <select [(ngModel)]="extSelected">
+      <option value="">Tous</option>
+      @for (ext of extensions ; track ext) {
+      <option>{{ ext }}</option>
+      }
+    </select>
+
+    @for (u of users | extFilter:extSelected ; track u.id) {
+    <app-user-card [user]="u" />
     }
   `,
   standalone: true,
-  imports: [UserCardComponent, PluralPipe, FormsModule]
+  imports: [UserCardComponent, PluralPipe, FormsModule, ExtensionPipe],
 })
 export class UsersComponent {
-  nbSelected = 0
+  nbSelected = 0;
+  extSelected = '';
+  extensions: string[] = ['tv', 'biz', 'io', 'me'];
   users: User[] = [
     {
       id: 1,
