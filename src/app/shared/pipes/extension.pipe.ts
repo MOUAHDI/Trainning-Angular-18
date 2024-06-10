@@ -3,7 +3,7 @@ import { User } from '../../../core/interfaces/user.interface';
 
 @Pipe({
   name: 'extFilter',
-  standalone: true
+  standalone: true,
 })
 export class ExtensionPipe implements PipeTransform {
   transform(users: User[], ext: string): User[] {

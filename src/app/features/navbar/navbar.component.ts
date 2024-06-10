@@ -13,7 +13,7 @@ import { CurrencyPipe, UpperCasePipe } from "@angular/common";
 })
 export class NavbarComponent {
     title = 'Mon App'
-    name = 'ben'
+    name = ''
     price = 15
 
     listenSearch(userName: string) {

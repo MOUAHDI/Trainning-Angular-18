@@ -1,19 +1,18 @@
-import { NgFor, NgIf } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Query, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AutoCompletePipe } from "../../../shared/pipes/autocomplete.pipe";
 
 @Component({
     selector: 'app-search',
     template: `
-        <input type="text" [(ngModel)]="userName">
+        <input type="text" [(ngModel)]="userName" #refInput>
         @if (userName != '') {
             <button (click)="search()">Rechercher</button>
         }
         <!-- <button (click)="search()" *ngIf="userName != ''">Rechercher</button> -->
         <ul>
             @for (name of firstNames | autocomplete:userName ; track $index) {
-                <li>{{ name }}</li>
+                <li #refLi>{{ name }}</li>
             }
         </ul>
         <!-- <ul>
@@ -25,9 +24,25 @@ import { AutoCompletePipe } from "../../../shared/pipes/autocomplete.pipe";
     standalone: true,
     imports: [FormsModule, AutoCompletePipe /*NgIf, NgFor*/]
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit, AfterViewInit {
     @Input() userName = ''
     @Output() eventSearch: EventEmitter<string> = new EventEmitter()
+    @ViewChild('refInput') propInput!: ElementRef<HTMLInputElement>
+    @ViewChildren('refLi') propLi!: QueryList<ElementRef>
+
+    constructor() {
+       
+    }
+
+    ngOnInit() {
+        
+       // this.propInput?.nativeElement.focus()
+    }
+
+    ngAfterViewInit(): void {
+        console.log(this.propLi.toArray())
+    }
+
     firstNames: string[] = ['ana', 'jim', 'ben']
 
     search() {
