@@ -1,20 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, ViewChildren } from '@angular/core';
 import { UserCardComponent } from './user-card/user-card.component';
 import { User } from '../../../core/interfaces/user.interface';
+import { PluralPipe } from '../../shared/pipes/plural.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-users',
   template: ` 
-    <h1>Utilisateurs</h1> 
+    <h1>{{ 'Utilisateur' | plural:nbSelected }}</h1> 
+
+    <select [(ngModel)]="nbSelected">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+    </select>
   
     @for (u of users ; track u.id) {
-        <app-user-card [user]="u" />
+        <app-user-card [user]="u"  />
     }
   `,
   standalone: true,
-  imports: [UserCardComponent]
+  imports: [UserCardComponent, PluralPipe, FormsModule]
 })
 export class UsersComponent {
+  nbSelected = 0
   users: User[] = [
     {
       id: 1,
