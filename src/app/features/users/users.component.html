@@ -21,6 +21,8 @@
   <button (click)="scrollToIndex()">Scroll To</button>
 </div>
 
+<button (click)="createUser()">Créer utilisateur</button>
+
 @for (u of users() | extFilter:extSelected ; track u.id) {
   <app-user-card [user]="u" #refUser>
     <h1 #title>Titre</h1>

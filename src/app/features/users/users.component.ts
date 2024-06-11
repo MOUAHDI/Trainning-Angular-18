@@ -30,7 +30,15 @@ export class UsersComponent implements OnInit {
   //constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.usersService.getAll()
+    this.usersService.getAll().subscribe()
+  }
+
+  createUser() {
+    this.usersService.create({
+      name: 'ana',
+      email: 'ana@gmail.com',
+      username: 'dzdz'
+    }).subscribe()
   }
   
   scrollToIndex() {

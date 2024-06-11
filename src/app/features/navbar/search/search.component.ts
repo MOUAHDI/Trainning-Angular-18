@@ -27,7 +27,6 @@ import { UsersService } from "../../../core/services/users.service";
 })
 export class SearchComponent implements OnInit, AfterViewInit {
     private userService = inject(UsersService)
-    
     @Input() userName = ''
     @Output() eventSearch: EventEmitter<string> = new EventEmitter()
     @ViewChild('refInput') propInput!: ElementRef<HTMLInputElement>

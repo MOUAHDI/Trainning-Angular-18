@@ -18,7 +18,7 @@ import { AppService } from "../../core/services/app.service";
 export class NavbarComponent {
     private appService = inject(AppService)
     title: Signal<string> = this.appService.title
-    name = ''
+    name = 'ben'
     price = 15
 
     constructor() {
