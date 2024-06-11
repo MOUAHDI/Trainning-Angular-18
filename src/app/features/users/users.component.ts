@@ -1,4 +1,4 @@
-import { Component, ViewChildren } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { UserCardComponent } from './user-card/user-card.component';
 import { User } from '../../../core/interfaces/user.interface';
 import { PluralPipe } from '../../shared/pipes/plural.pipe';
@@ -7,32 +7,18 @@ import { ExtensionPipe } from '../../shared/pipes/extension.pipe';
 
 @Component({
   selector: 'app-users',
-  template: `
-    <h1>{{ 'Utilisateur' | plural : nbSelected }}</h1>
-
-    <select [(ngModel)]="nbSelected">
-      <option>0</option>
-      <option>1</option>
-      <option>2</option>
-    </select>
-
-    <select [(ngModel)]="extSelected">
-      <option value="">Tous</option>
-      @for (ext of extensions ; track ext) {
-      <option>{{ ext }}</option>
-      }
-    </select>
-
-    @for (u of users | extFilter:extSelected ; track u.id) {
-    <app-user-card [user]="u" />
-    }
-  `,
+  templateUrl: './users.component.html',
   standalone: true,
   imports: [UserCardComponent, PluralPipe, FormsModule, ExtensionPipe],
 })
 export class UsersComponent {
+  @ViewChildren('refUser', {
+    read: ElementRef
+  }) divUsers!: QueryList<ElementRef<HTMLDivElement>>
+
   nbSelected = 0;
   extSelected = '';
+  userIndex = 0
   extensions: string[] = ['tv', 'biz', 'io', 'me'];
   users: User[] = [
     {
@@ -266,4 +252,14 @@ export class UsersComponent {
       },
     },
   ];
+  errorMessage = ''
+  
+  scrollToIndex() {
+    if (this.userIndex < 0 || this.userIndex >= this.users.length) {
+      this.errorMessage = 'Invalid index'
+      return
+    }
+    const divUser = this.divUsers.toArray()[this.userIndex]
+    divUser.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
 }
