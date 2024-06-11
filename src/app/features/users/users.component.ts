@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ExtensionPipe } from '../../shared/pipes/extension.pipe';
 import { UsersService } from '../../core/services/users.service';
 import { AppService } from '../../core/services/app.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -15,6 +16,7 @@ import { AppService } from '../../core/services/app.service';
 })
 export class UsersComponent implements OnInit {
   private usersService = inject(UsersService)
+  private route = inject(ActivatedRoute)
   
   @ViewChildren('refUser', {
     read: ElementRef
@@ -30,7 +32,8 @@ export class UsersComponent implements OnInit {
   //constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.usersService.getAll().subscribe()
+    //this.usersService.getAll().subscribe()
+    console.log(this.route.snapshot.data['usersList'])
   }
 
   createUser() {
