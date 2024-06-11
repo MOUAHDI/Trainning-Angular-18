@@ -5,6 +5,7 @@ import { PluralPipe } from '../../shared/pipes/plural.pipe';
 import { FormsModule } from '@angular/forms';
 import { ExtensionPipe } from '../../shared/pipes/extension.pipe';
 import { UsersService } from '../../core/services/users.service';
+import { AppService } from '../../core/services/app.service';
 
 @Component({
   selector: 'app-users',
