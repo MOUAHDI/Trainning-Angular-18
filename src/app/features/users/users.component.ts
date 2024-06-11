@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    
+    this.usersService.delete(id).subscribe()
   }
   
   scrollToIndex() {

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outp
 import { FormsModule } from "@angular/forms";
 import { AutoCompletePipe } from "../../../shared/pipes/autocomplete.pipe";
 import { UsersService } from "../../../core/services/users.service";
+import { SharedModule } from "../../../shared/shared.module";
 
 @Component({
     selector: 'app-search',
@@ -23,7 +24,7 @@ import { UsersService } from "../../../core/services/users.service";
         </ul> -->
     `,
     standalone: true,
-    imports: [FormsModule, AutoCompletePipe /*NgIf, NgFor*/]
+    imports: [FormsModule, SharedModule /*NgIf, NgFor*/]
 })
 export class SearchComponent implements OnInit, AfterViewInit {
     private userService = inject(UsersService)
