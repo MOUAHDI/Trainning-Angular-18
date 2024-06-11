@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, Signal, ViewChildren, inject } from '@angular/core';
 import { UserCardComponent } from './user-card/user-card.component';
 import { User } from '../../core/interfaces/user.interface';
 import { PluralPipe } from '../../shared/pipes/plural.pipe';
@@ -24,13 +24,13 @@ export class UsersComponent implements OnInit {
   extSelected = '';
   userIndex = 0
   extensions: string[] = ['tv', 'biz', 'io', 'me'];
-  users: User[] = []
+  users: Signal<User[]> = this.usersService.usersFiltered
   errorMessage = ''
 
   //constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.users = this.usersService.getAll()
+    this.usersService.getAll()
   }
   
   scrollToIndex() {

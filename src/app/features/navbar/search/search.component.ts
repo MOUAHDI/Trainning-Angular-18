@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Query, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Query, QueryList, ViewChild, ViewChildren, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AutoCompletePipe } from "../../../shared/pipes/autocomplete.pipe";
+import { UsersService } from "../../../core/services/users.service";
 
 @Component({
     selector: 'app-search',
@@ -25,14 +26,12 @@ import { AutoCompletePipe } from "../../../shared/pipes/autocomplete.pipe";
     imports: [FormsModule, AutoCompletePipe /*NgIf, NgFor*/]
 })
 export class SearchComponent implements OnInit, AfterViewInit {
+    private userService = inject(UsersService)
+    
     @Input() userName = ''
     @Output() eventSearch: EventEmitter<string> = new EventEmitter()
     @ViewChild('refInput') propInput!: ElementRef<HTMLInputElement>
     @ViewChildren('refLi') propLi!: QueryList<ElementRef>
-
-    constructor() {
-       
-    }
 
     ngOnInit() {
         
@@ -47,5 +46,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     search() {
         this.eventSearch.emit(this.userName)
+        this.userService.setSearch(this.userName)
     }
 }
