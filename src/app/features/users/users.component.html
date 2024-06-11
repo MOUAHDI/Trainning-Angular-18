@@ -24,7 +24,7 @@
 <button (click)="createUser()">Créer utilisateur</button>
 
 @for (u of users() | extFilter:extSelected ; track u.id) {
-  <app-user-card [user]="u" #refUser>
+  <app-user-card [user]="u" #refUser (eventDelete)="deleteUser($event)">
     <h1 #title>Titre</h1>
     <h2>Sous titre</h2>
   </app-user-card>

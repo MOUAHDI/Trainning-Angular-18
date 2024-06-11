@@ -40,6 +40,10 @@ export class UsersComponent implements OnInit {
       username: 'dzdz'
     }).subscribe()
   }
+
+  deleteUser(id: number) {
+    
+  }
   
   scrollToIndex() {
     if (this.userIndex < 0 || this.userIndex >= this.users.length) {

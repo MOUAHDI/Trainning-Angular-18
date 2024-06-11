@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, Input, OnInit } from "@angular/core";
+import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { User } from "../../../core/interfaces/user.interface";
 import { LangPipe } from "../../../shared/pipes/lang.pipe";
 
@@ -11,7 +11,7 @@ import { LangPipe } from "../../../shared/pipes/lang.pipe";
              {{ user.email }}
              <ng-content select="h2"></ng-content>
             <footer>
-                <button>{{ 'REMOVE' | lang:'fr' }}</button>
+                <button (click)="removeUser()">{{ 'REMOVE' | lang:'fr' }}</button>
             </footer>
             
         </article>
@@ -21,9 +21,14 @@ import { LangPipe } from "../../../shared/pipes/lang.pipe";
 })
 export class UserCardComponent implements AfterContentInit {
     @Input() user: User = {} as User
+    @Output() eventDelete: EventEmitter<number> = new EventEmitter()
     @ContentChild('title') myTitle!: ElementRef
 
     ngAfterContentInit(): void {
         console.log(this.myTitle)
+    }
+
+    removeUser() {
+        this.eventDelete.emit(this.user.id)
     }
 }
