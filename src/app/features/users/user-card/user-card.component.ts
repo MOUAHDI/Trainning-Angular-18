@@ -1,5 +1,5 @@
 import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, Input, OnInit } from "@angular/core";
-import { User } from "../../../../core/interfaces/user.interface";
+import { User } from "../../../core/interfaces/user.interface";
 import { LangPipe } from "../../../shared/pipes/lang.pipe";
 
 @Component({

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { User } from '../../../core/interfaces/user.interface';
+import { User } from '../../core/interfaces/user.interface';
 
 @Pipe({
   name: 'extFilter',
