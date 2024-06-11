@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Query, QueryList, ViewChild, ViewChildren, inject } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Query, QueryList, Signal, ViewChild, ViewChildren, computed, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AutoCompletePipe } from "../../../shared/pipes/autocomplete.pipe";
 import { UsersService } from "../../../core/services/users.service";
@@ -13,7 +13,7 @@ import { SharedModule } from "../../../shared/shared.module";
         }
         <!-- <button (click)="search()" *ngIf="userName != ''">Rechercher</button> -->
         <ul>
-            @for (name of firstNames | autocomplete:userName ; track $index) {
+            @for (name of firstNames() | autocomplete:userName ; track $index) {
                 <li #refLi>{{ name }}</li>
             }
         </ul>
@@ -42,7 +42,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
         console.log(this.propLi.toArray())
     }
 
-    firstNames: string[] = ['ana', 'jim', 'ben']
+    firstNames: Signal<string[]> = computed(
+            () => this.userService.users().map(user => user.name)
+    )
 
     search() {
         this.eventSearch.emit(this.userName)
