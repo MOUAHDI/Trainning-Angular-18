@@ -1,26 +1,32 @@
-import { NgClass, NgStyle } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, NgClass, NgStyle],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styles: `
-    .red {
-      color: red;
-    }
-    .green {
-      color: green;
-    }
-  `
 })
 export class LoginComponent {
-  //@ViewChild('myForm') form!: NgForm
+  propEmail = new FormControl<string>('', [
+    Validators.required,
+    Validators.minLength(3)
+  ]);
+  propPass = new FormControl<string>('');
+  myForm = new FormGroup({
+    email: this.propEmail,
+    password: this.propPass,
+  });
+  submitted = false;
 
-  login(form: NgForm) {
-    if (form.invalid) return
-    console.log(form.value)
+  login() {
+    this.submitted = true;
+    if (this.myForm.invalid) return
+    console.log(this.myForm.value);
   }
 }

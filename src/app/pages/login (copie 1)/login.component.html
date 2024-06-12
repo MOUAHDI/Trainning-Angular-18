@@ -1,0 +1,25 @@
+<form (ngSubmit)="login(myForm)" #myForm="ngForm">
+
+    @if (myForm.invalid && myForm.submitted) {
+        <div>Formulaire invalide</div>
+        @if (email.hasError('required')) {
+            L'email est obligatoire
+        }
+        @if (email.hasError('minlength')) {
+           Vous devez mettre {{ email.getError('minlength').actualLength }} caractères, {{ email.getError('minlength').requiredLength }} caractères obligatoires
+        }
+    }
+
+    <div [ngClass]="{ red: myForm.invalid, green: myForm.valid }">Mon texte</div>
+
+    <div [ngStyle]="{ color: 'red', fontWeight: 'bold' }">texte 2</div>
+
+    <label>Email</label>
+    <input type="text" name="email" 
+        ngModel #email="ngModel" required minlength="3">
+
+    <label>Mot de passe</label>
+    <input type="password" name="password" ngModel>
+
+    <button>Connexion</button>
+</form>
