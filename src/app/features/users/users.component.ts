@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, QueryList, Signal, ViewChildren, inject 
 import { UserCardComponent } from './user-card/user-card.component';
 import { User } from '../../core/interfaces/user.interface';
 import { PluralPipe } from '../../shared/pipes/plural.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ExtensionPipe } from '../../shared/pipes/extension.pipe';
 import { UsersService } from '../../core/services/users.service';
 import { AppService } from '../../core/services/app.service';
@@ -28,6 +28,7 @@ export class UsersComponent implements OnInit {
   extensions: string[] = ['tv', 'biz', 'io', 'me'];
   users: Signal<User[]> = this.usersService.usersFiltered
   errorMessage = ''
+  loading = false
 
   //constructor(private usersService: UsersService) { }
 
@@ -36,12 +37,18 @@ export class UsersComponent implements OnInit {
     console.log(this.route.snapshot.data['usersList'])
   }
 
-  createUser() {
-    this.usersService.create({
-      name: 'ana',
-      email: 'ana@gmail.com',
-      username: 'dzdz'
-    }).subscribe()
+  createUser(form: NgForm) {
+    if (form.invalid) return
+    this.loading = true
+    this.usersService.create(form.value).subscribe({
+      next: () => {
+        this.loading = false
+        form.resetForm()
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
   }
 
   deleteUser(id: number) {

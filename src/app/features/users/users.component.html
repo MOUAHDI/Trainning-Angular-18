@@ -21,7 +21,25 @@
   <button (click)="scrollToIndex()">Scroll To</button>
 </div>
 
-<button (click)="createUser()">Créer utilisateur</button>
+<form (ngSubmit)="createUser(myForm)" #myForm="ngForm">
+  @if (myForm.invalid && myForm.submitted) {
+    @if (email.hasError('required')) {
+      <div>Email obligatoire</div>
+    }
+    @if (name.hasError('required')) {
+      <div>Nom obligatoire</div>
+    }
+  }
+  <label>Email</label>
+  <input type="text" name="email" #email="ngModel" ngModel required>
+
+  <label>Nom</label>
+  <input type="text" name="name" #name="ngModel" ngModel required>
+
+  <button [ariaBusy]="loading" [disabled]="loading">
+    {{ loading ? '' : 'Créer utilisateur' }}
+  </button>
+</form>
 
 @for (u of users() | extFilter:extSelected ; track u.id) {
   <app-user-card [user]="u" #refUser (eventDelete)="deleteUser($event)">
