@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -6,6 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { domainValidator } from '../../core/validators/domain.validator';
+import { AuthPayload, AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +16,9 @@ import { domainValidator } from '../../core/validators/domain.validator';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
+  private auth = inject(AuthService)
+  private router = inject(Router)
+
   propEmail = new FormControl<string>('', [
     Validators.required,
     Validators.minLength(3),
@@ -29,6 +34,8 @@ export class LoginComponent {
   login() {
     this.submitted = true;
     if (this.myForm.invalid) return
-    console.log(this.myForm.value);
+    this.auth.login(this.myForm.value as AuthPayload).subscribe(() => {
+      this.router.navigateByUrl('/')
+    })
   }
 }
