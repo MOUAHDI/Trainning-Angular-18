@@ -16,7 +16,7 @@ import { SharedModule } from "../../../shared/shared.module";
                 <button 
                     confirm="Etes vous de ..." 
                     [confirmUsername]="user.name"
-                    (click)="removeUser()">
+                    (eventConfirm)="removeUser()">
                 {{ 'REMOVE' | lang:'fr' }}</button>
                 <button [routerLink]="['user', user.id]">Modifier</button>
             </footer>
