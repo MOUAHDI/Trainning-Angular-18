@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private auth = inject(AuthService)
   private router = inject(Router)
 
@@ -30,6 +30,10 @@ export class LoginComponent {
     password: this.propPass,
   });
   submitted = false;
+
+  ngOnInit() {
+    this.propEmail.setValue('une valeur')
+  }
 
   login() {
     this.submitted = true;
