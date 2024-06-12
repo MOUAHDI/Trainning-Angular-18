@@ -7,6 +7,9 @@
         @if (propEmail.hasError('minlength')) {
             Caractères requis
         }
+        @if (propEmail.hasError('domain')) {
+            {{ propEmail.getError('domain') }} est interdit !
+        }
     }
 
     <label>Email</label>

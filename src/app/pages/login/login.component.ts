@@ -5,6 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { domainValidator } from '../../core/validators/domain.validator';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ import {
 export class LoginComponent {
   propEmail = new FormControl<string>('', [
     Validators.required,
-    Validators.minLength(3)
+    Validators.minLength(3),
+    domainValidator('hotmail.com')
   ]);
   propPass = new FormControl<string>('');
   myForm = new FormGroup({
