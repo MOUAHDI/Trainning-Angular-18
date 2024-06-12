@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Query, QueryList, Signal, ViewChild, ViewChildren, computed, inject } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AutoCompletePipe } from "../../../shared/pipes/autocomplete.pipe";
 import { UsersService } from "../../../core/services/users.service";
 import { SharedModule } from "../../../shared/shared.module";
+import { debounceTime, distinctUntilChanged } from "rxjs";
 
 @Component({
     selector: 'app-search',
     template: `
-        <input type="text" [(ngModel)]="userName" #refInput>
+        <input type="text" [formControl]="propUserName"  #refInput>
         @if (userName != '') {
             <button (click)="search()">Rechercher</button>
         }
@@ -24,17 +25,27 @@ import { SharedModule } from "../../../shared/shared.module";
         </ul> -->
     `,
     standalone: true,
-    imports: [FormsModule, SharedModule /*NgIf, NgFor*/]
+    imports: [ReactiveFormsModule, FormsModule, SharedModule /*NgIf, NgFor*/]
 })
 export class SearchComponent implements OnInit, AfterViewInit {
     private userService = inject(UsersService)
+    propUserName = new FormControl()
+    
     @Input() userName = ''
     @Output() eventSearch: EventEmitter<string> = new EventEmitter()
     @ViewChild('refInput') propInput!: ElementRef<HTMLInputElement>
     @ViewChildren('refLi') propLi!: QueryList<ElementRef>
 
     ngOnInit() {
-        
+        this.propUserName.valueChanges
+        .pipe(
+            debounceTime(300),
+            distinctUntilChanged()
+        )
+        .subscribe((val: string) => {
+            console.log(val)
+            this.userName = val
+        })
        // this.propInput?.nativeElement.focus()
     }
 

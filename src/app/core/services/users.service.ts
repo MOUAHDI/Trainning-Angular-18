@@ -28,6 +28,10 @@ export class UsersService {
     );
   }
 
+  get(id: number): Observable<User> {
+    return this.http.get<User>(this.url + '/' + id)
+  }
+
   create(payload: UserPayload): Observable<User> {
     return this.http.post<User>(this.url, payload).pipe(
       tap((user) => {
