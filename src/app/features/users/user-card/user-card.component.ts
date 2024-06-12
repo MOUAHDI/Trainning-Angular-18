@@ -1,6 +1,7 @@
 import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { User } from "../../../core/interfaces/user.interface";
 import { LangPipe } from "../../../shared/pipes/lang.pipe";
+import { RouterLink } from "@angular/router";
 
 @Component({
     selector: 'app-user-card',
@@ -12,12 +13,13 @@ import { LangPipe } from "../../../shared/pipes/lang.pipe";
              <ng-content select="h2"></ng-content>
             <footer>
                 <button (click)="removeUser()">{{ 'REMOVE' | lang:'fr' }}</button>
+                <button [routerLink]="['user', user.id]">Modifier</button>
             </footer>
             
         </article>
     `,
     standalone: true,
-    imports: [LangPipe]
+    imports: [LangPipe, RouterLink]
 })
 export class UserCardComponent implements AfterContentInit {
     @Input() user: User = {} as User
