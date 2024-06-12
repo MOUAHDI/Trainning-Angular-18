@@ -1,6 +1,6 @@
 <h1>{{ user.name }}</h1>
 
-<form [formGroup]="form">
+<form (ngSubmit)="edit()" [formGroup]="form">
     <label>Email</label>
     <input type="text" [formControl]="propEmail">
 
